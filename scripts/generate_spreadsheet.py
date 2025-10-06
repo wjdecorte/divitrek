@@ -1,9 +1,12 @@
 import pandas as pd
 import datetime as dt
+from pathlib import Path
 
-# Load your files - update paths if necessary
-positions_file = "current_positions.xlsx"
-history_file = "Fidelity_Full_History_20240701_20251001.csv"
+# Use repository data directory for input files
+project_root = Path(__file__).resolve().parents[1]
+data_dir = project_root / "data"
+positions_file = data_dir / "current_positions.xlsx"
+history_file = data_dir / "Fidelity_Full_History_20240701_20251001.csv"
 
 # Load data
 positions = pd.read_excel(positions_file)
@@ -175,7 +178,8 @@ for _, row in positions.iterrows():
 forecast_df = pd.concat(forecast_list) if forecast_list else pd.DataFrame()
 
 # Export all data to an Excel file with multiple tabs
-with pd.ExcelWriter("Dividend_Tracker_Complete.xlsx") as writer:
+output_file = data_dir / "Dividend_Tracker_Complete.xlsx"
+with pd.ExcelWriter(output_file) as writer:
     positions.to_excel(writer, index=False, sheet_name="Holdings & Summary")
     monthly_dividends.to_excel(
         writer, index=False, sheet_name="Monthly Dividend History"
@@ -183,4 +187,4 @@ with pd.ExcelWriter("Dividend_Tracker_Complete.xlsx") as writer:
     forecast_df.to_excel(writer, index=False, sheet_name="Dividend Forecast")
     dividend_details.to_excel(writer, index=False, sheet_name="Dividend Details")
 
-print("Dividend_Tracker_Complete.xlsx has been generated.")
+print(f"Wrote {output_file.resolve()}")

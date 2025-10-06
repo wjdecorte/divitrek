@@ -4,7 +4,9 @@ from pathlib import Path
 import xlsxwriter
 
 today = dt.date.today()
-out_path = Path("/Users/jason/Documents/Dividend_Tracker_Skeleton.xlsx")
+# Write to the repository's data directory for portability
+home_dir = Path.home()
+out_path = home_dir / "Documents" / "Dividend_Tracker_Skeleton.xlsx"
 wb = xlsxwriter.Workbook(out_path.as_posix())
 
 # Formats

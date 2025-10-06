@@ -10,8 +10,8 @@ WORKDIR /app
 ENV PYTHONUNBUFFERED=1
 
 COPY --from=builder /usr/local /usr/local
-COPY app ./app
-COPY frontend ./frontend
+COPY divitrek/app ./app
+COPY divitrek/frontend ./frontend
 
 EXPOSE 8000 8501
 
